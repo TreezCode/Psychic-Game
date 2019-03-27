@@ -1,8 +1,9 @@
 
-// Create variables to track wins/losses.
+// Create variables to track wins and losses.
 var wins = 0
 var losses = 0 
 
+// Create variable for remaining guesses.
 var guessLeft = 9
 
 // Create an array of computer choices.
@@ -17,40 +18,47 @@ var lossesText = document.getElementById("losses-text");
 var guessLeftText = document.getElementById("guess-left-text");
 var wrongGuessText = document.getElementById("wrong-guess-text")
 
+// Create a function for game reset.
+var gameReset = () => {
+    wrongGuess = [];
+    guessLeft = 9;
+}
+
 // This functions starts game upon key event.
 document.onkeyup = function(event) {
 
-    // if (userGuess = ) {
+    // Create variable to determine which key was pressed.
+    var keyCode = event.which
 
-        // User picks a letter from key press.
+    // Only run this block of code if key press is a letter.
+    if (keyCode >= 65 && keyCode <=125) {
+
+        // User guess depends on key press.
         var userGuess = event.key;
-        console.log("user guess is " + userGuess);
 
-        // Computer picks a random.
+        // Computer chooses a random letter from array.
         var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-        console.log("computer guess is " + computerGuess);
 
-        // Checks if user is psychic and adds wins/losses.
+        // Checks if user is psychic and add wins/losses.
         if (userGuess === computerGuess) {
-            wins++;
-            guessLeft = 9; 
+            gameReset();
+            wins++; 
         } else if (userGuess !== computerGuess) {
             wrongGuess.push(event.key);
             guessLeft--;
         };
-
+        // Reset game and add a loss if user has 0 guesses left.
         if (guessLeft < 1) {
-            wrongGuess = [];
-            guessLeft = 9;
+            gameReset()
             losses++;
         }
 
-        // Display the user guesses.
+        // Display the user variables to HTML.
         winsText.textContent = wins;
         lossesText.textContent = losses;
         guessLeftText.textContent = guessLeft;
         wrongGuessText.textContent = wrongGuess;
 
-    // }
+    }
 
 };
